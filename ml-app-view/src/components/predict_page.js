@@ -37,48 +37,72 @@ const PredictPage = () => {
       setPrediction(response.data.prediction);
       setError(null);
     } catch (err) {
-      setError(err.response?.data?.error || "An error occurred");
+      setError(err.response?.data?.error || "Ocurrió un error");
       setPrediction(null);
     }
   };
 
+  // Traducción de las etiquetas para el frontend
+  const fieldLabels = {
+    Pregnancies: "Número de embarazos",
+    Glucose: "Glucosa en sangre (mg/dL)",
+    BloodPressure: "Presión arterial (mmHg)",
+    SkinThickness: "Grosor del pliegue cutáneo (mm)",
+    Insulin: "Insulina sérica (µU/mL)",
+    BMI: "Índice de masa corporal (kg/m²)",
+    DiabetesPedigreeFunction: "Predisposición genética",
+    Age: "Edad (años)",
+  };
+
+  // Rango de valores válidos según la tabla
+  const inputRanges = {
+    Pregnancies: { min: 0, max: 17 },
+    Glucose: { min: 0, max: 500 },
+    BloodPressure: { min: 0, max: 122 },
+    SkinThickness: { min: 0, max: 99 },
+    Insulin: { min: 0, max: 846 },
+    BMI: { min: 14, max: 67.1 },
+    DiabetesPedigreeFunction: { min: 0.078, max: 2.42, step: 0.01 },
+    Age: { min: 21, max: 81 },
+  };
+
   return (
-    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
-      <h1>Diabetes Prediction</h1>
-      <form onSubmit={handleSubmit}>
-        {Object.keys(formData).map((field) => (
-          <div key={field} style={{ marginBottom: "15px" }}>
-            <label style={{ display: "block", marginBottom: "5px" }}>
-              {field}:
-            </label>
-            <input
-              type="number"
-              step="any"
-              name={field}
-              value={formData[field]}
-              onChange={handleChange}
-              required
-              style={{
-                padding: "10px",
-                width: "100%",
-                boxSizing: "border-box",
-              }}
-            />
-          </div>
-        ))}
-        <button  className="btn btn-primary" type="submit" style={{ padding: "10px 20px", cursor: "pointer" }}>
-          Predict
-        </button>
+    <div className="container py-4">
+      <h1 className="text-center mb-4">Predicción de Diabetes</h1>
+      <form onSubmit={handleSubmit} className="needs-validation">
+        <div className="row g-3 justify-content-center">
+          {Object.keys(formData).map((field) => (
+            <div key={field} className="col-md-6">
+              <label className="form-label">{fieldLabels[field]}:</label>
+              <input
+                type="number"
+                step={inputRanges[field].step || "any"}
+                name={field}
+                value={formData[field]}
+                onChange={handleChange}
+                required
+                min={inputRanges[field].min}
+                max={inputRanges[field].max}
+                className="form-control"
+              />
+            </div>
+          ))}
+        </div>
+        <div className="text-center mt-4">
+          <button className="btn btn-primary btn-lg" type="submit">
+            Predecir
+          </button>
+        </div>
       </form>
 
       {prediction && (
-        <div style={{ marginTop: "20px", color: "green" }}>
-          <h3>Prediction: {prediction}</h3>
+        <div className="alert alert-success mt-4 text-center">
+          <h4>Predicción: {prediction}</h4>
         </div>
       )}
       {error && (
-        <div style={{ marginTop: "20px", color: "red" }}>
-          <h3>Error: {error}</h3>
+        <div className="alert alert-danger mt-4 text-center">
+          <h4>Error: {error}</h4>
         </div>
       )}
     </div>
