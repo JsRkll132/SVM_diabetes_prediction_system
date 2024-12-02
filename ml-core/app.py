@@ -54,7 +54,7 @@ def predict_api():
         # Verificar que no haya valores faltantes
         if None in input_data:
             return jsonify({'error': 'Some input fields are missing'}), 400
-        
+        print(input_data)
         # Convertir los datos de entrada en un array de numpy
         input_data_as_numpy_array = np.asarray(input_data).reshape(1, -1)
         

@@ -66,7 +66,7 @@ const PredictPage = () => {
             />
           </div>
         ))}
-        <button type="submit" style={{ padding: "10px 20px", cursor: "pointer" }}>
+        <button  className="btn btn-primary" type="submit" style={{ padding: "10px 20px", cursor: "pointer" }}>
           Predict
         </button>
       </form>
