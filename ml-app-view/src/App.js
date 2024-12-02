@@ -1,9 +1,9 @@
 //import logo from './logo.svg';
 import './App.css';
-
+import PredictPage from './components/predict_page';
 function App() {
   return (
-    <button className="btn btn-primary">aea</button>
+    <PredictPage></PredictPage>
   );
 }
 
